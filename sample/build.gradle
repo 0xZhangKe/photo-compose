@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'soup.compose.photo.sample'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "soup.compose.photo.sample"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
     }
@@ -43,6 +43,5 @@ dependencies {
     debugImplementation libs.compose.ui.tooling
     debugImplementation libs.compose.ui.test.manifest
 
-    implementation libs.accompanist.pager
     implementation libs.coil.compose
 }

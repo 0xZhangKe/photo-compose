@@ -15,6 +15,7 @@
  */
 package soup.compose.photo
 
+import android.util.Log
 import androidx.annotation.FloatRange
 import androidx.compose.animation.core.AnimationState
 import androidx.compose.animation.core.DecayAnimationSpec
@@ -115,6 +116,10 @@ public class PhotoState(
             )
             if (coerceValue != _currentOffset) {
                 _currentOffset = coerceValue
+                Log.d(
+                    "P_TEST",
+                    "currentOffset:$coerceValue, isZero:${coerceValue == Offset.Zero}",
+                )
             }
         }
 
@@ -132,9 +137,7 @@ public class PhotoState(
     }
 
     public val isScaled: Boolean
-        get() = currentScale != 1f || currentOffset.isZero.not()
-
-    private val Offset.isZero: Boolean get() = x == 0F && y == 0F
+        get() = currentScale != 1f || currentOffset != Offset.Zero
 
     /**
      * Animate to the initial state.

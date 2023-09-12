@@ -16,10 +16,14 @@
 package soup.compose.photo.sample
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerScope
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -32,19 +36,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerScope
-import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import soup.compose.photo.ExperimentalPhotoApi
 import soup.compose.photo.PhotoBox
 import soup.compose.photo.rememberPhotoState
 
-@OptIn(
-    ExperimentalPagerApi::class,
-    ExperimentalPhotoApi::class,
-)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalPhotoApi::class)
 @Composable
 fun PhotoBoxInPagerDemo() {
     Scaffold(
@@ -87,7 +84,7 @@ fun PhotoBoxInPagerDemo() {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun LoopHorizontalPager(
     count: Int,
@@ -96,13 +93,15 @@ private fun LoopHorizontalPager(
     content: @Composable PagerScope.(page: Int) -> Unit,
 ) {
     val startIndex = Int.MAX_VALUE / 2
-    val pagerState = rememberPagerState(initialPage = startIndex)
+    val pagerState = rememberPagerState(
+        initialPage = startIndex,
+        pageCount = { Int.MAX_VALUE },
+    )
     HorizontalPager(
-        count = Int.MAX_VALUE,
         state = pagerState,
         modifier = modifier,
         contentPadding = contentPadding,
-        content = { index ->
+        pageContent = { index ->
             val page = (index - startIndex).floorMod(count)
             content(page)
         },
